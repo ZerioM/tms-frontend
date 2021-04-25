@@ -3,6 +3,11 @@
     <ion-header :translucent="true">
       <Header title="Kühlgeräte" />
     </ion-header>
+    <ion-content>
+      <ion-header collapse="condense">
+        <Header title="Kühlgeräte" />
+      </ion-header>
+    </ion-content>
     <ion-router-outlet />
   </ion-app>
 </template>
