@@ -1,9 +1,9 @@
 export interface Fridge {
-    _id: String;
+    _id: string;
     fridgeId: number;
-    name: String;
+    name: string;
     userId: number;
-    crossGateId: String;
+    crossGateId: string;
     tempOk: boolean;
     humOk: boolean;
     __v: number;

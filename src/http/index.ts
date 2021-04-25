@@ -8,11 +8,10 @@ const backend = axios.create({
     timeout: 1000,
 });
 
-export function getFridges(): Fridge[]{
+export async function getFridges(): Promise<Fridge[]>{
     let fridges: Fridge[] = [];
-    backend.get('fridges').then(response => {
-        fridges = response.data;
-        console.log(fridges);
-    });
+    const response = await backend.get('fridges');
+    fridges = response.data;
+    console.log(fridges);
     return fridges;
 }
