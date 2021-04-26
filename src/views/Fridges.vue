@@ -1,9 +1,9 @@
 <template>
     <ion-page>
         <ion-content :fullscreen="true">
-            <pre>
+            <!-- <pre>
                 {{getFridges}}
-            </pre>
+            </pre> -->
             <div id="container">
                 <Accordion>
                     <AccordionTab v-for="fridge in getFridges" :key="fridge.name" :header="fridge.name">
@@ -20,6 +20,7 @@ import { IonContent, IonPage } from '@ionic/vue';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     components: {
@@ -31,8 +32,15 @@ export default {
     computed: {
         ...mapGetters(['getFridges'])
     },
-    mounted: function(){
-        console.log(this.getFridges);
+    mounted: function() {
+        this.setFridgesArray();
+    },
+    methods: {
+        ...mapActions(['getFridgesData']),
+        async setFridgesArray() {
+            await this.getFridgesData();
+            console.log(this.getFridges);
+        }
     }
 }
 </script>

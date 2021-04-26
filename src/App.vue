@@ -16,7 +16,6 @@
 import { IonApp, IonHeader, IonContent, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Header from '@/components/semantic/Header.vue';
-import { mapActions } from 'vuex';
 
 export default defineComponent({
   name: 'App',
@@ -27,11 +26,5 @@ export default defineComponent({
     IonRouterOutlet,
     Header
   },
-  mounted: function() {
-    this.getFridgesData()
-  },
-  methods: {
-    ...mapActions(['getFridgesData'])
-  }
 });
 </script>
