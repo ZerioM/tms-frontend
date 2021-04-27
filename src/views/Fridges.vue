@@ -2,14 +2,12 @@
     <ion-page>
         <ion-content :fullscreen="true">
             <!-- <pre>
-                {{getFridges}}
+                {{fridgesArray}}
             </pre> -->
-            <div id="container">
-                <Accordion>
-                    <AccordionTab v-for="fridge in getFridges" :key="fridge.name" :header="fridge.name">
-                        <p>{{fridge["_id"]}}</p>
-                    </AccordionTab>
-                </Accordion>
+            <div id="container" v-if="fridgesArray">
+                <div v-for="fridge in fridgesArray" :key="fridge.name" :header="fridge.name">
+                    <p>{{fridge.name}} | {{fridge["_id"]}}</p>
+                </div>
             </div>
         </ion-content>
     </ion-page>
@@ -17,31 +15,27 @@
 
 <script>
 import { IonContent, IonPage } from '@ionic/vue';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import * as http from '@/http';
 
 export default {
     components: {
         IonContent,
-        IonPage,
-        Accordion,
-        AccordionTab
+        IonPage
     },
-    computed: {
-        ...mapGetters(['getFridges'])
-    },
-    mounted: function() {
-        this.setFridgesArray();
-    },
-    methods: {
-        ...mapActions(['getFridgesData']),
-        async setFridgesArray() {
-            await this.getFridgesData();
-            console.log(this.getFridges);
+    data () {
+        return {
+            fridgesArray: [],
         }
-    }
+    },
+    created: function() {
+        http.getFridges().then(result => {
+            result.forEach(el => {
+                this.fridgesArray.push(el);
+            });
+            console.log("http-Result:", result);
+            console.log(this.fridgesArray);
+        })
+    },
 }
 </script>
 

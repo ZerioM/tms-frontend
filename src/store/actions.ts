@@ -11,7 +11,7 @@ export const getFridgesData = ({ commit }: {commit: any}) => {
                     fridge.name = "undefined";
                 }
             });
-            console.log(fridges);
+            console.log("Actions",fridges);
             commit(types.FRIDGES, fridges);
         })
 }  

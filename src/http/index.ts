@@ -12,6 +12,6 @@ export async function getFridges(): Promise<Fridge[]>{
     let fridges: Fridge[] = [];
     const response = await backend.get('fridges');
     fridges = response.data;
-    console.log(fridges);
+    console.log("http:",fridges);
     return fridges;
 }
