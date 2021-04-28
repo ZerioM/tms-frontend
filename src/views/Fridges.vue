@@ -1,13 +1,8 @@
 <template>
     <ion-page>
         <ion-content :fullscreen="true">
-            <!-- <pre>
-                {{fridgesArray}}
-            </pre> -->
-            <div id="container" v-if="fridgesArray">
-                <div v-for="fridge in fridgesArray" :key="fridge.name" :header="fridge.name">
-                    <p>{{fridge.name}} | {{fridge["_id"]}}</p>
-                </div>
+            <div id="container">
+                <Expandable id="expandable" :iterable="fridgesArray" />
             </div>
         </ion-content>
     </ion-page>
@@ -16,11 +11,14 @@
 <script>
 import { IonContent, IonPage } from '@ionic/vue';
 import * as http from '@/http';
+import Expandable from '@/components/semantic/Expandable.vue';
+
 
 export default {
     components: {
         IonContent,
-        IonPage
+        IonPage,
+        Expandable
     },
     data () {
         return {
@@ -42,5 +40,9 @@ export default {
 <style>
 .hidden {
     display: none;
+}
+
+#expandable {
+    margin: 2.5%;
 }
 </style>

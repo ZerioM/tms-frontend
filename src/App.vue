@@ -7,8 +7,8 @@
       <ion-header collapse="condense">
         <Header title="Kühlgeräte" />
       </ion-header>
+      <ion-router-outlet />
     </ion-content>
-    <ion-router-outlet />
   </ion-app>
 </template>
 
