@@ -2,7 +2,7 @@
     <ion-page>
         <ion-content :fullscreen="true">
             <div id="container">
-                <Expandable id="expandable" :iterable="fridgesArray" />
+                <Expandable :iterable="fridgesArray" />
             </div>
         </ion-content>
     </ion-page>
@@ -38,11 +38,4 @@ export default {
 </script>
 
 <style>
-.hidden {
-    display: none;
-}
-
-#expandable {
-    margin: 2.5%;
-}
 </style>
