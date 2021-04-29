@@ -26,13 +26,8 @@ export default {
         }
     },
     created: function() {
-        http.getFridgesByUserId().then(result => {
-            result.forEach(el => {
-                this.fridgesArray.push(el);
-            });
-            console.log("http-Result:", result);
-            console.log(this.fridgesArray);
-        })
+        http.getFridgesByUserId()
+            .then(result => this.fridgesArray = result);
     },
 }
 </script>
