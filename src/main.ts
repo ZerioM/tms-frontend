@@ -2,9 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import store from './store';
-import PrimeVue from 'primevue/config';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -27,6 +24,13 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/* PrimeVue */
+import PrimeVue from 'primevue/config';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Button from 'primevue/button';
+import Calendar from 'primevue/calendar';
+
 import 'primevue/resources/themes/saga-blue/theme.css';       //theme
 import 'primevue/resources/primevue.min.css';                 //core css
 import 'primeicons/primeicons.css';                   //icons
@@ -39,6 +43,8 @@ const app = createApp(App)
 
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
+app.component('PrimeButton', Button);
+app.component('Calendar', Calendar);
   
 router.isReady().then(() => {
   app.mount('#app');
