@@ -7,8 +7,8 @@ export interface Fridge {
     userId: number;
     crossGateId: string;
     sensor: SensorData[];
-    tempOk: boolean;
-    humOk: boolean;
+    tempOK: boolean;
+    humOK: boolean;
     __v: number;
     maxHumidity: NumberDecimal;
     minHumidity: NumberDecimal;

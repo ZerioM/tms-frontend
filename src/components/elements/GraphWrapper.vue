@@ -14,11 +14,13 @@
         <Graph />
         <div class="current-value" v-if="isTemperature && data != null">
             <p>Aktuelle Temperatur</p>
-            <p class="color-green">19.02°C</p>
+            <p v-if="isOk" class="color-green">{{getCurrentTemperature}}°C</p>
+            <p v-else class="color-red">{{getCurrentTemperature}}°C</p>
         </div>
         <div class="current-value" v-if="!isTemperature && data != null">
             <p>Aktuelle Luftfeuchtigkeit</p>
-            <p class="color-green">56.43%</p>
+            <p v-if="isOk" class="color-green">{{getCurrentHumidity}}%</p>
+            <p v-else class="color-red">{{getCurrentHumidity}}%</p>
         </div>
     </div>
 </template>
@@ -30,12 +32,54 @@ export default {
     data () {
         return {
             fromDate: null,
-            toDate: null
+            toDate: null,
+            mostRecentTimestamp: new Date('January 1, 1970 0:00:00'),
+            currentTemperature: 0,
+            currentHumidity: 50
         }
     },
     props: {
         data: [],
         isTemperature: Boolean,
+        isOk: Boolean,
+    },
+    computed: {
+        getCurrentHumidity() {
+            console.log(this.data);
+            if(this.data != null && this.data.length != 0){
+
+                this.data.forEach(dataElement => {
+
+                    if(new Date(dataElement.timestamp).getTime() > new Date(this.mostRecentTimestamp).getTime()){
+
+                        this.mostRecentTimestamp = dataElement.timestamp;
+                        this.currentHumidity = dataElement.humidity.$numberDecimal;
+
+                    }
+                });
+            }
+
+            console.log("Current Humidity: ", this.currentHumidity);
+            return this.currentHumidity;
+        },
+        getCurrentTemperature() {
+            if(this.data != null && this.data.length != 0){
+
+                this.data.forEach(dataElement => {
+
+                    if(new Date(dataElement.timestamp).getTime() > new Date(this.mostRecentTimestamp).getTime()){
+
+                        this.mostRecentTimestamp = dataElement.timestamp;
+                        this.currentTemperature = dataElement.temperature.$numberDecimal;
+
+                    }
+
+                });
+            }
+
+            console.log("Current Temperature: ", this.currentTemperature);
+            return this.currentTemperature;
+        }
     }
 }
 </script>
@@ -75,5 +119,9 @@ export default {
 
 .color-green {
     color: #8CC63F;
+}
+
+.color-red {
+    color: #ff0000;
 }
 </style>

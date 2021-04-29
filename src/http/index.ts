@@ -13,17 +13,6 @@ const backend = axios.create({
     timeout: 1000,
 });
 
-export async function getAllFridges(): Promise<Fridge[]> {
-    let fridges: Fridge[] = [];
-    const response = await backend.get('fridges');
-    fridges = response.data;
-    fridges.forEach(fridge => {
-        if(fridge.name == '')
-            fridge.name = "undefined";
-    });
-    return fridges;
-}
-
 function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
     if(fridge.name == '')
         fridge.name = "undefined";
@@ -57,8 +46,21 @@ export async function getFridgesByUserId(): Promise<Fridge[]> {
 
     fridges.forEach(async (fridge) => {
         setNameOfFridgeToUndefinedIfEmpty(fridge);
-        fridge.sensor = await getSensorDataByMac(fridge.crossGateId);
+        fridge.sensor = await getSensorDataByMac(fridge['_id']);
     });
 
+    console.log(fridges);
+
+    return fridges;
+}
+
+export async function getAllFridges(): Promise<Fridge[]> {
+    let fridges: Fridge[] = [];
+    const response = await backend.get('fridges');
+    fridges = response.data;
+    fridges.forEach(async (fridge) => {
+        setNameOfFridgeToUndefinedIfEmpty(fridge);
+        fridge.sensor = await getSensorDataByMac(fridge['_id']);
+    });
     return fridges;
 }

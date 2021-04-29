@@ -2,15 +2,15 @@
     <Accordion class="in_box" :multiple="true">
         <AccordionTab v-for="element in iterable" :key="element['_id']">
             <template #header id="accordion-header">
-                <span v-if="element.humOK && element.tempOK">🟢 {{element.name}}</span>
+                <span v-if="(element.humOK && element.tempOK)">🟢 {{element.name}}</span>
                 <span v-if="(element.humOK && !element.tempOK) || (!element.humOK && element.tempOK)"> 🟡 {{element.name}}</span>
-                <span v-if="!element.humOK && !element.tempOK"> 🔴 {{element.name}} </span>
+                <span v-if="(!element.humOK && !element.tempOK)"> 🔴 {{element.name}} </span>
                 <img v-if="true" class="battery_icon" src="@/assets/icons/battery_full.svg">
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_middle.svg">
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_low.svg">
             </template>
-            <GraphWrapper :data="element.sensor" :isTemperature="true" />
-            <GraphWrapper :data="element.sensor" :isTemperature="false" />
+            <GraphWrapper :data="element.sensor" :isTemperature="true" :isOk="element.tempOK" />
+            <GraphWrapper :data="element.sensor" :isTemperature="false" :isOk="element.humOK" />
             <div class="button-wrapper">
                 <PrimeButton class="prime-button">Einzelansicht</PrimeButton>
                 <PrimeButton class="prime-button">Konfigurieren</PrimeButton>
