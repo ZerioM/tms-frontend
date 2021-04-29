@@ -11,7 +11,7 @@
 <script>
 import { IonContent, IonPage } from '@ionic/vue';
 import * as http from '@/http';
-import Expandable from '@/components/semantic/Expandable.vue';
+import Expandable from '@/components/elements/ExpandableFridges.vue';
 
 
 export default {
@@ -26,7 +26,7 @@ export default {
         }
     },
     created: function() {
-        http.getFridges().then(result => {
+        http.getFridgesByUserId().then(result => {
             result.forEach(el => {
                 this.fridgesArray.push(el);
             });

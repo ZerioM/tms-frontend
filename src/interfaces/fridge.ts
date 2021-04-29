@@ -1,9 +1,12 @@
+import { SensorData } from "./sensorData";
+
 export interface Fridge {
     _id: string;
     fridgeId: number;
     name: string;
     userId: number;
     crossGateId: string;
+    sensor: SensorData[];
     tempOk: boolean;
     humOk: boolean;
     __v: number;
@@ -13,6 +16,6 @@ export interface Fridge {
     minTemperature: NumberDecimal;
 }
 
-interface NumberDecimal {
+export interface NumberDecimal {
     $numberDecimal: number;
 }
