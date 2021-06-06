@@ -47,16 +47,11 @@ export default {
         getCurrentHumidity() {
             console.log(this.data);
             if(this.data != null && this.data.length != 0){
+                /* eslint-disable */
+                this.currentHumidity = this.data[this.data.length - 1].humidity;
 
-                this.data.forEach(dataElement => {
-
-                    if(new Date(dataElement.timestamp).getTime() > new Date(this.mostRecentTimestamp).getTime()){
-
-                        this.mostRecentTimestamp = dataElement.timestamp;
-                        this.currentHumidity = dataElement.humidity.$numberDecimal;
-
-                    }
-                });
+            } else {
+                this.currentHumidity = 50;
             }
 
             console.log("Current Humidity: ", this.currentHumidity);
@@ -64,17 +59,11 @@ export default {
         },
         getCurrentTemperature() {
             if(this.data != null && this.data.length != 0){
+                /* eslint-disable */
+                this.currentTemperature = this.data[this.data.length - 1].temperature;
 
-                this.data.forEach(dataElement => {
-
-                    if(new Date(dataElement.timestamp).getTime() > new Date(this.mostRecentTimestamp).getTime()){
-
-                        this.mostRecentTimestamp = dataElement.timestamp;
-                        this.currentTemperature = dataElement.temperature.$numberDecimal;
-
-                    }
-
-                });
+            } else {
+                this.currentTemperature = 0;
             }
 
             console.log("Current Temperature: ", this.currentTemperature);
@@ -106,7 +95,7 @@ export default {
 }
 
 .p-calendar .p-inputtext {
-    font-size: 12px;
+    font-size: 11px;
     width: 100%;
 }
 
