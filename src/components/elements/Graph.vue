@@ -18,6 +18,20 @@ export default {
             chart: null,
         }
     },
+    props: {
+        fromDate: {
+            type: Date,
+            default() {
+                return new Date(2018,3,23)
+            }
+        },
+        toDate: {
+            type: Date,
+            default() {
+                return new Date(2018,3,26)
+            }
+        },
+    },
     mounted: function() {
         const chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
 
@@ -46,11 +60,18 @@ export default {
         series.tooltipText = "{valueY.value}";
         chart.cursor = new am4charts.XYCursor();
 
-        const scrollbarX = new am4charts.XYChartScrollbar();
-        scrollbarX.series.push(series);
-        chart.scrollbarX = scrollbarX;
+        // const scrollbarX = new am4charts.XYChartScrollbar();
+        // scrollbarX.series.push(series);
+        // chart.scrollbarX = scrollbarX;
 
         this.chart = chart;
+
+        this.chart.events.on("ready", function () {
+            dateAxis.zoomToDates(
+                this.fromDate,
+                this.toDate
+            );
+        });
     },
 
     beforeUnmount: function() {
