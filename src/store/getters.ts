@@ -1,1 +1,0 @@
-export const getFridges = (state: any) => state.fridges;

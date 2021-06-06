@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import store from './store';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -39,7 +38,6 @@ import 'primeicons/primeicons.css';                   //icons
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(store)
   .use(PrimeVue);
 
 app.component('Accordion', Accordion);
