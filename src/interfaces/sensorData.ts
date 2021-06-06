@@ -1,9 +1,7 @@
-import { NumberDecimal } from "./fridge";
-
 export interface SensorData {
     _id: Identification;
-    temperature: NumberDecimal;
-    humidity: NumberDecimal;
+    temperature: number;
+    humidity: number;
     timestamp: Date;
 }
 

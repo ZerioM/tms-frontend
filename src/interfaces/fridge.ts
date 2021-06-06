@@ -9,13 +9,11 @@ export interface Fridge {
     sensor: SensorData[];
     tempOK: boolean;
     humOK: boolean;
+    gps: boolean;
     __v: number;
-    maxHumidity: NumberDecimal;
-    minHumidity: NumberDecimal;
-    maxTemperature: NumberDecimal;
-    minTemperature: NumberDecimal;
-}
-
-export interface NumberDecimal {
-    $numberDecimal: number;
+    maxHumidity: number;
+    minHumidity: number;
+    maxTemperature: number;
+    minTemperature: number;
+    batteryCharge: number;
 }
