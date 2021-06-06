@@ -3,6 +3,7 @@ import { UserIdDTO } from '@/interfaces/DTOs/userIdDTO';
 import { Fridge } from '@/interfaces/fridge';
 import { SensorData } from '@/interfaces/sensorData';
 import axios from 'axios';
+import * as errors from '../config/errors';
 
 const prodBackend = "https://temperaturmonitoring-api.azurewebsites.net/";
 
@@ -40,18 +41,21 @@ export async function getFridgesByUserId(): Promise<Fridge[]> {
         userId: userId,
     };
 
-    const response = await backend.post("fridges/ByUser", dTO);
+    try {
+        const response = await backend.post("fridges/ByUser", dTO);
 
-    fridges = response.data;
+        fridges = response.data;
 
-    fridges.forEach(async (fridge) => {
-        setNameOfFridgeToUndefinedIfEmpty(fridge);
-        fridge.sensor = await getSensorDataByMac(fridge['_id']);
-    });
+        fridges.forEach(async (fridge) => {
+            setNameOfFridgeToUndefinedIfEmpty(fridge);
+            fridge.sensor = await getSensorDataByMac(fridge['_id']);
+        });
 
-    console.log(fridges);
-
-    return fridges;
+        return fridges;
+    } catch (error) {
+        throw new Error(errors.CONNECTION_TO_SERVER_ERROR);
+    }
+    
 }
 
 export async function getAllFridges(): Promise<Fridge[]> {
