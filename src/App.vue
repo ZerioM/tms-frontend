@@ -3,21 +3,28 @@
     <ion-header :translucent="true">
       <Header title="Kühlgeräte" />
     </ion-header>
-    <ion-router-outlet />
+    <ion-content>
+      <ion-header collapse="condense">
+        <Header title="Kühlgeräte" />
+      </ion-header>
+      <ion-router-outlet />
+    </ion-content>
   </ion-app>
 </template>
 
 <script lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { IonApp, IonHeader, IonContent, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Header from '@/components/semantic/Header.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
+    IonHeader,
+    IonContent,
     IonApp,
     IonRouterOutlet,
     Header
-  }
+  },
 });
 </script>

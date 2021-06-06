@@ -23,9 +23,28 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/* PrimeVue */
+import PrimeVue from 'primevue/config';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Button from 'primevue/button';
+import Calendar from 'primevue/calendar';
+import Message from 'primevue/message';
+
+import 'primevue/resources/themes/saga-blue/theme.css';       //theme
+import 'primevue/resources/primevue.min.css';                 //core css
+import 'primeicons/primeicons.css';                   //icons
+
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(PrimeVue);
+
+app.component('Accordion', Accordion);
+app.component('AccordionTab', AccordionTab);
+app.component('PrimeButton', Button);
+app.component('Calendar', Calendar);
+app.component('Message', Message);
   
 router.isReady().then(() => {
   app.mount('#app');
