@@ -24,7 +24,7 @@ import GraphWrapper from '../elements/GraphWrapper.vue'
 export default {
   components: { GraphWrapper },
     props: {
-        iterable: [],
+        iterable: Array,
     },
 }
 </script>
