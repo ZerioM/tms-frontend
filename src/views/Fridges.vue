@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { IonContent, IonPage } from '@ionic/vue';
+import { IonContent, IonRefresher, IonRefresherContent, IonPage } from '@ionic/vue';
 import * as http from '@/http';
 import * as errors from '../config/errors';
 import Expandable from '@/components/semantic/ExpandableFridges.vue';
@@ -23,6 +23,8 @@ import Expandable from '@/components/semantic/ExpandableFridges.vue';
 export default {
     components: {
         IonContent,
+        IonRefresher,
+        IonRefresherContent,
         IonPage,
         Expandable
     },
