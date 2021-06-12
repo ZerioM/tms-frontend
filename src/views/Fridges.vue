@@ -9,12 +9,10 @@
             </ion-header>
             <Message id="error-message" severity="error" v-if="connectionToServerError" :closable="true">An error occurred while connecting to the server.</Message>
             <ion-refresher id="refresher" slot="fixed" @ionRefresh="doRefresh($event)">
-                <ion-refresher-content id="refresh-content">
-                    <div id="container">
-                        <Expandable id="expandable" v-if="!connectionToServerError" :iterable="fridgesArray" />
-                    </div>
+                <ion-refresher-content pulling-icon="bubbles" id="refresh-content">
                 </ion-refresher-content>
             </ion-refresher>
+            <Expandable id="expandable" v-if="!connectionToServerError" :iterable="fridgesArray" />
         </ion-content>
     </ion-page>
 </template>
