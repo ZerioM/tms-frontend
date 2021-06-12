@@ -20,11 +20,8 @@ function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
 }
 
 async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
-    const dTO: SensorIdDTO = {
-        sensorMac: sensorMac,
-    };
 
-    const response = await backend.post("sensordata/ByMac", dTO);
+    const response = await backend.get("sensordata/ByMac?sensorMac=" + sensorMac);
 
     const sensorData: SensorData[] = response.data;
     sensorData.forEach(dataElement => {
@@ -37,12 +34,8 @@ async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
 export async function getFridgesByUserId(): Promise<Fridge[]> {
     let fridges: Fridge[] = [];
 
-    const dTO: UserIdDTO = {
-        userId: userId,
-    };
-
     try {
-        const response = await backend.post("fridges/ByUser", dTO);
+        const response = await backend.get("fridges/ByUser?userId=" + userId);
 
         fridges = response.data;
 
