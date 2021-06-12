@@ -2,16 +2,16 @@
     <div id="graph-wrapper">
         <div id="date-selector">
             <div class="picker">
-                <label for="fromDatePicker">Von</label>
-                <Calendar id="fromDatePicker" v-model="fromDate" :showIcon="true" dateFormat="dd.mm.yy" />
+                <label :for="'fromDatePicker-' + wrapperId">Von</label>
+                <Calendar :id="'fromDatePicker-' + wrapperId" v-model="fromDate" :showIcon="true" dateFormat="dd.mm.yy" />
             </div>
             <div class="picker">
-                <label for="toDatePicker">Bis</label>
-                <Calendar id="toDatePicker" v-model="toDate" :showIcon="true" dateFormat="dd.mm.yy"/>
+                <label :for="'toDatePicker-' + wrapperId">Bis</label>
+                <Calendar :id="'toDatePicker-' + wrapperId" v-model="toDate" :showIcon="true" dateFormat="dd.mm.yy"/>
             </div>
             <PrimeButton id="select-timeframe-button">Anwenden</PrimeButton>
         </div>
-        <Graph />
+        <Graph :fromDate="new Date(21,6,12)" :toDate="new Date(21,6,14)" />
         <div class="current-value" v-if="isTemperature && data != null">
             <p>Aktuelle Temperatur</p>
             <p v-if="isOk" class="color-green">{{getCurrentTemperature}}°C</p>
@@ -39,13 +39,13 @@ export default {
         }
     },
     props: {
-        data: [],
+        wrapperId: String,
+        data: Array,
         isTemperature: Boolean,
         isOk: Boolean,
     },
     computed: {
         getCurrentHumidity() {
-            console.log(this.data);
             if(this.data != null && this.data.length != 0){
                 /* eslint-disable */
                 this.currentHumidity = this.data[this.data.length - 1].humidity;
@@ -53,8 +53,6 @@ export default {
             } else {
                 this.currentHumidity = 50;
             }
-
-            console.log("Current Humidity: ", this.currentHumidity);
             return this.currentHumidity;
         },
         getCurrentTemperature() {
@@ -65,8 +63,6 @@ export default {
             } else {
                 this.currentTemperature = 0;
             }
-
-            console.log("Current Temperature: ", this.currentTemperature);
             return this.currentTemperature;
         }
     }
