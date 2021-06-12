@@ -1,6 +1,6 @@
 <template>
     <div id="user-icon-wrapper">
-        <img :src="imageSrc" />
+        <img v-bind:class="{ border: hasBorder, img: !hasBorder }" :src="imageSrc" />
         <div id="text">{{ username }}</div>
     </div>
 </template>
@@ -10,6 +10,7 @@ export default {
     props: {
         username: String,
         imageSrc: String,
+        hasBorder: Boolean
     }
 }
 </script>
@@ -22,8 +23,15 @@ export default {
         flex-direction: column;
     }
 
-    img {
+    .img {
         margin-left: 12.5%;
+    }
+
+    .border {
+        width: 20%;
+        border: 5px solid dodgerblue;
+        box-sizing: border-box;
+        border-radius: 100%;
     }
 
     #text {
@@ -31,7 +39,7 @@ export default {
         font-family: $font-main;
         font-style: normal;
         font-weight: 600;
-        font-size: 9px;
+        font-size: 12px;
         line-height: 10px;
     }
 </style>
