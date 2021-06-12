@@ -1,5 +1,3 @@
-import { SensorIdDTO } from '@/interfaces/DTOs/sensorIdDTO';
-import { UserIdDTO } from '@/interfaces/DTOs/userIdDTO';
 import { Fridge } from '@/interfaces/fridge';
 import { SensorData } from '@/interfaces/sensorData';
 import axios from 'axios';
@@ -11,7 +9,7 @@ const userId = "201508";
 
 const backend = axios.create({
     baseURL: prodBackend,
-    timeout: 1000,
+    timeout: 2000,
 });
 
 function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
@@ -21,12 +19,19 @@ function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
 
 async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
 
-    const response = await backend.get("sensordata/ByMac?sensorMac=" + sensorMac);
+    let sensorData: SensorData[] = [];
+    
+    try {
+        const response = await backend.get("sensordata/ByMac?sensorMac=" + sensorMac);
 
-    const sensorData: SensorData[] = response.data;
-    sensorData.forEach(dataElement => {
-        dataElement.timestamp = dataElement._id.timestamp;
-    });
+        sensorData = response.data;
+        sensorData.forEach(dataElement => {
+            dataElement.timestamp = dataElement._id.timestamp;
+        });
+
+    } catch (error) {
+        console.log(sensorData + " " + error);
+    }
 
     return sensorData;
 }
@@ -46,7 +51,12 @@ export async function getFridgesByUserId(): Promise<Fridge[]> {
 
         return fridges;
     } catch (error) {
-        throw new Error(errors.CONNECTION_TO_SERVER_ERROR);
+        if(error.message === errors.CONNECTION_TO_SERVER_ERROR)
+            throw new Error(errors.CONNECTION_TO_SERVER_ERROR);
+        if(error.message === errors.NO_SENSORDATA_FOUND)
+            throw new Error(errors.NO_SENSORDATA_FOUND);
+        else 
+            throw new Error(errors.UNDEFINED_ERROR);
     }
     
 }

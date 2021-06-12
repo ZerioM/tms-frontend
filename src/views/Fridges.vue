@@ -39,6 +39,7 @@ export default {
         return {
             fridgesArray: [],
             connectionToServerError: false,
+            noSensordataError: false,
         }
     },
     created: function() {
@@ -50,12 +51,18 @@ export default {
             .then(result => {
                 this.fridgesArray = result;
                 this.connectionToServerError = false;
+                this.noSensordataError = false;
                 })
             .catch(error => {
                 if(error.message === errors.CONNECTION_TO_SERVER_ERROR) {
                     this.connectionToServerError = true;
                 } else {
                     this.connectionToServerError = false;
+                }
+                if(error.message === errors.NO_SENSORDATA_FOUND) {
+                    this.noSensordataError = true;
+                } else {
+                    this.noSensordataError = false;
                 }
             })
         },
