@@ -1,26 +1,23 @@
 <template>
-    <div ref="menu" id="menu" @click="toggleMenu()">
-        <div class="menu-bar" :class="{rotation1: isOpen}" id="menu-bar-1">
+    <div ref="menu" id="menu">
+        <div class="menu-bar" :class="{rotation1: sharedState.isMenuVisible}" id="menu-bar-1">
         </div>
-        <div class="menu-bar" :class="{hidden: isOpen}" id="menu-bar-2">
+        <div class="menu-bar" :class="{hidden: sharedState.isMenuVisible}" id="menu-bar-2">
         </div>
-        <div class="menu-bar" :class="{rotation2: isOpen}" id="menu-bar-3">
+        <div class="menu-bar" :class="{rotation2: sharedState.isMenuVisible}" id="menu-bar-3">
         </div>
     </div>
 </template>
 
 <script>
+import { store } from '../../store';
+
 export default {
     data () {
         return {
-            isOpen: false,
+            sharedState: store.state,
         }
     },
-    methods: {
-        toggleMenu() {
-            this.isOpen = !this.isOpen;
-        }
-    }
 }
 </script>
 
@@ -42,7 +39,7 @@ export default {
 
 .rotation1 {
     position: absolute;
-    top: -27.5%;
+    top: -20%;
     -webkit-transform: rotate(135deg);
     -moz-transform: rotate(135deg);
     -o-transform: rotate(135deg);
@@ -51,7 +48,7 @@ export default {
 
 .rotation2 {
     position: absolute;
-    top: -27.5%;
+    top: -20%;
     -webkit-transform: rotate(-135deg);
     -moz-transform: rotate(-135deg);
     -o-transform: rotate(-135deg);
