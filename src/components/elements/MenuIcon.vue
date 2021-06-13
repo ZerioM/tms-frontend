@@ -42,7 +42,7 @@ export default {
 
 .rotation1 {
     position: absolute;
-    top: -27.5%;
+    top: -20%;
     -webkit-transform: rotate(135deg);
     -moz-transform: rotate(135deg);
     -o-transform: rotate(135deg);
@@ -51,7 +51,7 @@ export default {
 
 .rotation2 {
     position: absolute;
-    top: -27.5%;
+    top: -20%;
     -webkit-transform: rotate(-135deg);
     -moz-transform: rotate(-135deg);
     -o-transform: rotate(-135deg);

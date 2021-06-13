@@ -1,15 +1,13 @@
 <template>
-  <div id="header">
+  <div id="header" :class="isMenuVisible ? 'resize-header' : 'header'">
       <img id="back-m" src="@/assets/icons/big_m.svg" />
       <div id="nav-bar">
         <UserIcon v-bind:class="{ hidden: isMenuVisible }" imageSrc="/images/standard/user.svg" username="User_23456" id="user-icon" />
-        <router-link v-bind:class="{ hidden: isMenuVisible }" id="logo" to="/">
-            <img src="@/assets/icons/tms_white.svg" />
-        </router-link>
+        <Title v-bind:class="{ hidden: isMenuVisible }" :text="title" id="title" />
         <Menu id="menu" v-bind:class="{ displaynone: !isMenuVisible }" />
         <MenuIcon id="menu-icon" @click="toggleMenu()"/>
       </div>
-      <Title v-bind:class="{ hidden: isMenuVisible }" :text="title" id="title" />
+      
       <SearchInput v-if="searchable && !isMenuVisible" />
   </div>
 </template>
@@ -41,15 +39,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#header {
+.header {
     width: 100%;
-    height: 220px;
+    height: 160px;
+    padding: 0%;
+    background: dodgerblue;
+}
+
+.resize-header {
+    width: 100%;
+    height: 300px;
     padding: 0%;
     background: dodgerblue;
 }
 
 #back-m {
-    top: -30px;
+    top: 0;
     left: -10px;
     position: absolute;
     opacity: 0.3;
@@ -57,10 +62,13 @@ export default {
     width: 102%;
     height: auto;
     pointer-events: none;
+    max-height: 160px;
+    overflow: hidden;
+    object-fit: cover;
 }
 
 #title {
-    align-content: center;
+    margin-left: -5%;
 }
 
 .displaynone {
@@ -74,6 +82,7 @@ export default {
 #nav-bar {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 5%;
 }
 
 #logo {
