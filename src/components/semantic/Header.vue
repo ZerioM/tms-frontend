@@ -1,14 +1,14 @@
 <template>
-  <div id="header" :class="isMenuVisible ? 'resize-header' : 'header'">
+  <div id="header" :class="sharedState.isMenuVisible ? 'resize-header' : 'header'">
       <img id="back-m" src="@/assets/icons/big_m.svg" />
       <div id="nav-bar">
-        <UserIcon v-bind:class="{ hidden: isMenuVisible }" imageSrc="/images/standard/user.svg" username="User_23456" id="user-icon" />
-        <Title v-bind:class="{ hidden: isMenuVisible }" :text="title" id="title" />
-        <Menu id="menu" v-bind:class="{ displaynone: !isMenuVisible }" />
+        <UserIcon v-bind:class="{ hidden: sharedState.isMenuVisible }" imageSrc="/images/standard/user.svg" username="User_23456" id="user-icon" />
+        <Title v-bind:class="{ hidden: sharedState.isMenuVisible }" :text="title" id="title" />
+        <Menu id="menu" v-bind:class="{ displaynone: !sharedState.isMenuVisible }" />
         <MenuIcon id="menu-icon" @click="toggleMenu()"/>
       </div>
       
-      <SearchInput v-if="searchable && !isMenuVisible" />
+      <SearchInput v-if="searchable && !sharedState.isMenuVisible" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@ import Title from '../elements/Title.vue';
 import Menu from './Menu.vue';
 import UserIcon from '../elements/UserIcon.vue';
 import MenuIcon from '../elements/MenuIcon.vue';
+import { store } from '../../store/';
 
 export default {
   components: { SearchInput, Title, Menu, UserIcon, MenuIcon },
@@ -27,12 +28,12 @@ export default {
   },
   data () {
     return {
-        isMenuVisible: false,
+        sharedState: store.state
     }
   },
   methods: {
     toggleMenu() {
-        this.isMenuVisible = !this.isMenuVisible;
+        store.changeMenuVisibleAction(!this.sharedState.isMenuVisible);
     }
   }
 }

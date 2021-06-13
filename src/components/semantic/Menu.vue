@@ -5,18 +5,29 @@
         <h2>Menü</h2>
         <hr/>
         <ul id="navigation">
-            <li><router-link class="nav-list-el" to="/">Home</router-link></li>
-            <li><router-link class="nav-list-el" to="/fridges">Monitoring</router-link></li>
-            <li><router-link class="nav-list-el" to="/information">Information</router-link></li>
-            <li><router-link class="nav-list-el" to="/">Impressum</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">Home</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/fridges">Monitoring</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/information">Information</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">Impressum</router-link></li>
         </ul>
     </nav>
 </div> 
 </template>
 
 <script>
-export default {
+import { store } from '../../store';
 
+export default {
+    data () {
+        return {
+            sharedState: store.state,
+        }
+    },
+    methods: {
+        toggleMenu() {
+            store.changeMenuVisibleAction(!this.sharedState.isMenuVisible);
+        }
+    }
 }
 </script>
 
