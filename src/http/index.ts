@@ -9,7 +9,7 @@ const userId = "201508";
 
 const backend = axios.create({
     baseURL: prodBackend,
-    timeout: 2000,
+    timeout: 5000,
 });
 
 function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
