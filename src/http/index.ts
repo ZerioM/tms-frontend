@@ -56,7 +56,7 @@ export async function getFridgesByUserId(): Promise<Fridge[]> {
         if(error.message === errors.NO_SENSORDATA_FOUND)
             throw new Error(errors.NO_SENSORDATA_FOUND);
         else 
-            throw new Error(errors.UNDEFINED_ERROR);
+            throw new Error(errors.CONNECTION_TO_SERVER_ERROR);
     }
     
 }
