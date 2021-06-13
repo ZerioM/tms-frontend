@@ -7,9 +7,7 @@
       <ion-header collapse="condense">
         <Header title="Information" :searchable="true" />
       </ion-header>
-      <div id="container">
-        
-      </div>
+      <ExpandableInformation id="expandable" />
     </ion-content>
   </ion-page>
 </template>
@@ -18,6 +16,7 @@
 import { IonContent, IonHeader, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Header from '@/components/semantic/Header.vue';
+import ExpandableInformation from '@/components/semantic/ExpandableInformation.vue';
 
 export default defineComponent({
   name: 'Home',
@@ -26,6 +25,7 @@ export default defineComponent({
     IonContent,
     IonPage,
     Header,
+    ExpandableInformation,
   },
 });
 </script>
