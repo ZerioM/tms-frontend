@@ -26,6 +26,10 @@ const routes: Array<RouteRecordRaw> = [
       /* webpackChunkName: "information" */ '../views/Information.vue'
     ),
   },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/home'
+  }
 ]
 
 const router = createRouter({
