@@ -9,9 +9,9 @@
                 <label :for="'toDatePicker-' + wrapperId">Bis</label>
                 <Calendar :id="'toDatePicker-' + wrapperId" v-model="toDate" :showIcon="true" dateFormat="dd.mm.yy"/>
             </div>
-            <PrimeButton id="select-timeframe-button">Anwenden</PrimeButton>
+            <PrimeButton id="select-timeframe-button" @click="redrawChart()">Anwenden</PrimeButton>
         </div>
-        <Graph :fromDate="new Date(21,6,12)" :toDate="new Date(21,6,14)" />
+        <Graph :zoomDates="zoomDates"/>
         <div class="current-value" v-if="isTemperature && data != null">
             <p>Aktuelle Temperatur</p>
             <p v-if="isOk" class="color-green">{{getCurrentTemperature}}°C</p>
@@ -31,8 +31,9 @@ export default {
   components: { Graph },
     data () {
         return {
-            fromDate: null,
-            toDate: null,
+            fromDate: undefined,
+            toDate: undefined,
+            zoomDates: { fromDate: undefined, toDate: undefined },
             mostRecentTimestamp: new Date('January 1, 1970 0:00:00'),
             currentTemperature: 0,
             currentHumidity: 50
@@ -64,6 +65,16 @@ export default {
                 this.currentTemperature = 0;
             }
             return this.currentTemperature;
+        }
+    },
+    methods: {
+        redrawChart() {
+            console.log("From Date: ", typeof(this.fromDate));
+
+            this.zoomDates = {
+                fromDate: this.fromDate,
+                toDate: this.toDate
+            };
         }
     }
 }

@@ -19,21 +19,26 @@ export default {
         }
     },
     props: {
-        fromDate: {
-            type: Date,
+        zoomDates: {
+            type: Object,
             default() {
-                return new Date(2018,3,23)
-            }
-        },
-        toDate: {
-            type: Date,
-            default() {
-                return new Date(2018,3,26)
+                return {
+                    fromDate: undefined,
+                    toDate: undefined
+                }
             }
         },
     },
+    watch: {
+        zoomDates(val) {
+            if (this.chart) {
+                this.chart.dispose();
+            }
+            this.createChart(val);
+        }
+    },
     mounted: function() {
-        this.createChart(this.fromDate, this.toDate)
+        this.createChart(this.zoomDates)
     },
 
     beforeUnmount: function() {
@@ -42,7 +47,7 @@ export default {
         }
     },
     methods: {
-        createChart(fromDate, toDate) {
+        createChart({ fromDate, toDate }) {
             const chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
 
             chart.paddingRight = 20;
@@ -76,12 +81,18 @@ export default {
 
             this.chart = chart;
 
-            this.chart.events.on("ready", function () {
-                dateAxis.zoomToDates(
-                    fromDate,
-                    toDate
-                );
-            });
+            if(this.checkIfTypesOfDatesAreCorrect(fromDate, toDate)){
+                this.chart.events.on("ready", function () {
+                    dateAxis.zoomToDates(
+                        fromDate,
+                        toDate
+                    );
+                });
+            }
+            
+        },
+        checkIfTypesOfDatesAreCorrect(fromDate, toDate){
+            return fromDate != undefined && toDate != undefined && fromDate != null && toDate != null && fromDate != '' && toDate != '';
         }
     }
 
