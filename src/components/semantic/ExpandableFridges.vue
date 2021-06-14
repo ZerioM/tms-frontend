@@ -2,9 +2,18 @@
     <Accordion class="in_box" :multiple="true">
         <AccordionTab v-for="element in iterable" :key="element['_id']">
             <template #header id="accordion-header">
-                <span v-if="(element.humOK && element.tempOK)">🟢 {{element.name}}</span>
-                <span v-if="(element.humOK && !element.tempOK) || (!element.humOK && element.tempOK)"> 🟡 {{element.name}}</span>
-                <span v-if="(!element.humOK && !element.tempOK)"> 🔴 {{element.name}} </span>
+                <span class="name-text" v-if="(element.humOK && element.tempOK)">
+                    <img class="dot-icon" src="@/assets/icons/green_dot.svg" alt="Temperature and Humidity OK" /> 
+                    {{element.name}}
+                </span>
+                <span class="name-text" v-if="(element.humOK && !element.tempOK) || (!element.humOK && element.tempOK)">
+                    <img class="dot-icon" src="@/assets/icons/yellow_dot.svg" alt="Temperature or Humidity not OK" /> 
+                    {{element.name}}
+                </span>
+                <span class="name-text" v-if="(!element.humOK && !element.tempOK)">
+                    <img class="dot-icon" src="@/assets/icons/red_dot.svg" alt="Temperature and Humidity not OK" /> 
+                    {{element.name}} 
+                </span>
                 <img v-if="true" class="battery_icon" src="@/assets/icons/battery_full.svg">
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_middle.svg">
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_low.svg">
@@ -33,6 +42,12 @@ export default {
 
 .in_box {
     margin: 2.5%;
+}
+
+.dot-icon {
+    width: 17px;
+    height: auto;
+    margin-right: 5px;
 }
 
 .battery_icon {
