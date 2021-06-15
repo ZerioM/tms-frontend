@@ -9,7 +9,7 @@ const userId = "201508";
 
 const backend = axios.create({
     baseURL: prodBackend,
-    timeout: 5000,
+    timeout: 10000,
 });
 
 function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
@@ -30,7 +30,7 @@ async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
         });
 
     } catch (error) {
-        console.log(sensorData + " " + error);
+        console.log("Tried to get SensorData: ",sensorData + " " + error);
     }
 
     return sensorData;
