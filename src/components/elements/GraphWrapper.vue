@@ -11,7 +11,8 @@
             </div>
             <PrimeButton id="select-timeframe-button" @click="redrawChart()">Anwenden</PrimeButton>
         </div>
-        <Graph :zoomDates="zoomDates"/>
+        <Graph v-if="isTemperature" :isTemperature="isTemperature" :valueDatePairArray="temperatureDatePairArray" :zoomDates="zoomDates" :minMaxValues="minMaxValues"/>
+        <Graph v-else :isTemperature="isTemperature" :valueDatePairArray="humidityDatePairArray" :zoomDates="zoomDates" :minMaxValues="minMaxValues"/>
         <div class="current-value" v-if="isTemperature && data != null">
             <p>Aktuelle Temperatur</p>
             <p v-if="isOk" class="color-green">{{getCurrentTemperature}}°C</p>
@@ -36,7 +37,9 @@ export default {
             zoomDates: { fromDate: undefined, toDate: undefined },
             mostRecentTimestamp: new Date('January 1, 1970 0:00:00'),
             currentTemperature: 0,
-            currentHumidity: 50
+            currentHumidity: 50,
+            temperatureDatePairArray: [],
+            humidityDatePairArray: []
         }
     },
     props: {
@@ -44,6 +47,34 @@ export default {
         data: Array,
         isTemperature: Boolean,
         isOk: Boolean,
+        minMaxValues: Object,
+    },
+    watch: {
+        data(val) {
+            if(this.isTemperature){
+                const valueDatePairArray = [];
+
+                val.forEach(valueDatePair => {
+                    valueDatePairArray.push({
+                        date: new Date(valueDatePair.timestamp),
+                        value: valueDatePair.temperature
+                    });
+
+                    this.temperatureDatePairArray = valueDatePairArray;
+                });
+            } else {
+                const valueDatePairArray = [];
+
+                val.forEach(valueDatePair => {
+                    valueDatePairArray.push({
+                        date: new Date(valueDatePair.timestamp),
+                        value: valueDatePair.humidity
+                    });
+
+                    this.humidityDatePairArray = valueDatePairArray;
+                });
+            }
+        },
     },
     computed: {
         getCurrentHumidity() {
@@ -69,8 +100,6 @@ export default {
     },
     methods: {
         redrawChart() {
-            console.log("From Date: ", typeof(this.fromDate));
-
             this.zoomDates = {
                 fromDate: this.fromDate,
                 toDate: this.toDate

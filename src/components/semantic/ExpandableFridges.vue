@@ -18,8 +18,8 @@
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_middle.svg">
                 <img v-if="false" class="battery_icon" src="@/assets/icons/battery_low.svg">
             </template>
-            <GraphWrapper :wrapperId="element._id + '-1'" :data="element.sensor" :isTemperature="true" :isOk="element.tempOK" />
-            <GraphWrapper :wrapperId="element._id + '-2'" :data="element.sensor" :isTemperature="false" :isOk="element.humOK" />
+            <GraphWrapper :wrapperId="element._id + '-1'" :data="element.sensor" :isTemperature="true" :isOk="element.tempOK" :minMaxValues="{min: element.minTemperature, max: element.maxTemperature }" />
+            <GraphWrapper :wrapperId="element._id + '-2'" :data="element.sensor" :isTemperature="false" :isOk="element.humOK" :minMaxValues="{min: element.minHumidity, max: element.maxHumidity }"/>
             <div class="button-wrapper">
                 <PrimeButton class="prime-button">Einzelansicht</PrimeButton>
                 <PrimeButton class="prime-button">Konfigurieren</PrimeButton>
