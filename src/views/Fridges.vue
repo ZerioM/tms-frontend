@@ -7,12 +7,12 @@
             <ion-header collapse="condense">
                 <Header title="Kühlgeräte" :searchable="true" />
             </ion-header>
-            <Message id="error-message" severity="error" v-if="connectionToServerError || noSensorDataError" :closable="true">An error occurred while connecting to the server.</Message>
+            <Message id="error-message" severity="error" v-if="connectionToServerError || noSensordataError" :closable="true">An error occurred while connecting to the server.</Message>
             <ion-refresher id="refresher" slot="fixed" @ionRefresh="doRefresh($event)">
                 <ion-refresher-content pulling-icon="bubbles" id="refresh-content">
                 </ion-refresher-content>
             </ion-refresher>
-            <Expandable id="expandable" v-if="!connectionToServerError && !noSensorDataError" :iterable="fridgesArray" />
+            <Expandable id="expandable" v-if="!connectionToServerError && !noSensordataError" :iterable="fridgesArray" />
         </ion-content>
     </ion-page>
 </template>
