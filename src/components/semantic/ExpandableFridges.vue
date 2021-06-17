@@ -21,7 +21,7 @@
             <GraphWrapper :wrapperId="element._id + '-1'" :data="element.sensor" :isTemperature="true" :isOk="element.tempOK" :minMaxValues="{min: element.minTemperature, max: element.maxTemperature }" />
             <GraphWrapper :wrapperId="element._id + '-2'" :data="element.sensor" :isTemperature="false" :isOk="element.humOK" :minMaxValues="{min: element.minHumidity, max: element.maxHumidity }"/>
             <div class="button-wrapper">
-                <PrimeButton class="prime-button">Einzelansicht</PrimeButton>
+                <PrimeButton class="prime-button" @click="goToSingleView(element.name, element._id)">Einzelansicht</PrimeButton>
                 <PrimeButton class="prime-button">Konfigurieren</PrimeButton>
             </div>
         </AccordionTab>
@@ -30,11 +30,25 @@
 
 <script>
 import GraphWrapper from '../elements/GraphWrapper.vue'
+import { store } from '../../store/';
+
 export default {
   components: { GraphWrapper },
     props: {
         iterable: Array,
     },
+    data () {
+        return {
+            sharedState: store.state
+        }
+    },
+    methods: {
+        goToSingleView(fridgeName, sensorMac) {
+            store.setCurrentFridgeName(fridgeName);
+            store.setCurrentSensorMac(sensorMac);
+            this.$router.push({path: '/singleview'});
+        }
+    }
 }
 </script>
 
@@ -71,5 +85,10 @@ export default {
     border-radius: 0%;
     margin-right: 2.5%;
     margin-left: 2.5%;
+}
+
+.no-link-styling {
+    text-decoration: none;
+    color: white;
 }
 </style>

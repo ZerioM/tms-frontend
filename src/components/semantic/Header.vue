@@ -2,13 +2,18 @@
   <div id="header" :class="sharedState.isMenuVisible ? 'resize-header' : 'header'">
       <img id="back-m" src="@/assets/icons/big_m.svg" />
       <div id="nav-bar">
-        <UserIcon v-bind:class="{ hidden: sharedState.isMenuVisible }" imageSrc="/images/standard/user.svg" username="User_23456" id="user-icon" />
+        <UserIcon v-if="!backNavLocation" v-bind:class="{ hidden: sharedState.isMenuVisible }" imageSrc="/images/standard/user.svg" username="User_23456" id="user-icon" />
+        <router-link id="back-nav" v-if="backNavLocation" :to="backNavLocation">
+            <img id="back-arrow" src="@/assets/icons/back_icon.svg" />
+        </router-link>
         <Title v-bind:class="{ hidden: sharedState.isMenuVisible }" :text="title" id="title" />
         <Menu id="menu" v-bind:class="{ displaynone: !sharedState.isMenuVisible }" />
         <MenuIcon id="menu-icon" @click="toggleMenu()"/>
       </div>
       
       <SearchInput v-if="searchable && !sharedState.isMenuVisible" />
+      <h2 v-if="backNavLocation">{{sharedState.currentFridgeName}}</h2>
+      <h3 v-if="backNavLocation">{{sharedState.currentSensorMac}}</h3>
   </div>
 </template>
 
@@ -24,7 +29,13 @@ export default {
   components: { SearchInput, Title, Menu, UserIcon, MenuIcon },
   props: {
       title: String,
-      searchable: Boolean
+      searchable: Boolean,
+      backNavLocation: {
+          type: String,
+          default () {
+              return undefined;
+          }
+      },
   },
   data () {
     return {
@@ -40,6 +51,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/main.scss';
+
 .header {
     width: 100%;
     height: 160px;
@@ -100,6 +113,13 @@ export default {
     z-index: 2 ;
 }
 
+#back-nav {
+    margin-left: 4%;
+    margin-top: 6.5%;
+    margin-right: 10%;
+    z-index: 2;
+}
+
 #menu {
     position: absolute;
     left: 0;
@@ -113,5 +133,28 @@ export default {
     margin-right: 3.86%;
     margin-left: 3%;
     z-index: 1000;
+}
+
+h2 {
+    font-family: $font-main;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: white;
+}
+
+h3 {
+    font-family: $font-main;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: white;
+
 }
 </style>

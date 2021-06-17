@@ -31,6 +31,8 @@ import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
 import Message from 'primevue/message';
 import Galleria from 'primevue/galleria';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 import 'primevue/resources/themes/saga-blue/theme.css';       //theme
 import 'primevue/resources/primevue.min.css';                 //core css
@@ -47,6 +49,8 @@ app.component('PrimeButton', Button);
 app.component('Calendar', Calendar);
 app.component('Message', Message);
 app.component('Galleria', Galleria);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
   
 router.isReady().then(() => {
   app.mount('#app');

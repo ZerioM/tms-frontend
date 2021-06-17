@@ -70,7 +70,7 @@ export default {
             this.connectionToServerError = false;
             await this.getFridges();
             event.target.complete();
-        },
+        }
     }
 }
 </script>

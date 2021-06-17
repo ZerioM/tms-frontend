@@ -27,6 +27,13 @@ const routes: Array<RouteRecordRaw> = [
     ),
   },
   {
+    path: '/singleview',
+    name: 'SingleView',
+    component: () => import(
+      /* webpackChunkName: "singleview" */ '../views/SingleView.vue'
+    ), 
+  },
+  {
     path: '/:catchAll(.*)',
     redirect: '/home'
   }

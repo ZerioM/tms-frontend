@@ -17,7 +17,7 @@ function setNameOfFridgeToUndefinedIfEmpty(fridge: Fridge): void{
         fridge.name = "undefined";
 }
 
-async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
+export async function getSensorDataByMac(sensorMac: string): Promise<SensorData[]> {
 
     let sensorData: SensorData[] = [];
     
