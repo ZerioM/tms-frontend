@@ -104,7 +104,13 @@ export default {
             series.dataFields.dateX = "date";
             series.dataFields.valueY = "value";
 
-            
+            // TODO: Draw a range from min to max
+            // const range = valueAxis.createSeriesRange(series);
+            // range.value = min;
+            // range.endValue = max;
+            // range.contents.stroke = am4core.color("#396478");
+            // range.contents.fill = range.contents.stroke;
+
             const bullet = series.bullets.push(new am4charts.CircleBullet())
             bullet.circle.radius = 3
             bullet.circle.stroke = am4core.color("black");
