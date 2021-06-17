@@ -5,7 +5,7 @@
         <img id="logo" src="@/assets/icons/colored_logo.svg" />
         <div id="blue-content">
           <img id="back-logo" src="@/assets/icons/big_m_leftward.svg" />
-          <UserIcon imageSrc="/images/standard/user.svg" username="User_23456" hasBorder="true" id="user-icon" />
+          <UserIcon imageSrc="/images/standard/user.svg" username="User_23456" :hasBorder="true" id="user-icon" />
           <router-link class="router-button" to="fridges">
             Monitoring
           </router-link>
