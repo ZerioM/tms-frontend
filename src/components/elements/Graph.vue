@@ -124,7 +124,9 @@ export default {
 
                 let color = "blue";
 
-                if(value > max)
+                if(max === min)
+                    color = "lime"
+                else if(value > max)
                     color = "red";
                 else if(value < min)
                     color = "red";
