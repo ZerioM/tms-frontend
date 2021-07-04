@@ -1,11 +1,11 @@
 <template>
   <ion-page>
     <ion-header :translucent="true">
-      <Header title="Information" :searchable="true" />
+      <Header :title="messages.INFORMATION_TITLE" :searchable="true" :isOnFridges="false" />
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
-        <Header title="Information" :searchable="true" />
+        <Header :title="messages.INFORMATION_TITLE" :searchable="true" :isOnFridges="false" />
       </ion-header>
       <ExpandableInformation id="expandable" />
     </ion-content>
@@ -17,6 +17,7 @@ import { IonContent, IonHeader, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Header from '@/components/semantic/Header.vue';
 import ExpandableInformation from '@/components/semantic/ExpandableInformation.vue';
+import * as messages from '@/config/messages';
 
 export default defineComponent({
   name: 'Home',
@@ -27,6 +28,11 @@ export default defineComponent({
     Header,
     ExpandableInformation,
   },
+  data () {
+    return {
+      messages: messages,
+    }
+  }
 });
 </script>
 

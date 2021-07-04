@@ -7,10 +7,10 @@
           <img id="back-logo" src="@/assets/icons/big_m_leftward.svg" />
           <UserIcon imageSrc="/images/standard/user.svg" username="User_23456" :hasBorder="true" id="user-icon" />
           <router-link class="router-button" to="fridges">
-            Monitoring
+            {{ message.MONITORING_BUTTON_TITLE }}
           </router-link>
           <router-link class="router-button" to="information">
-            Information
+            {{ message.INFORMATION_BUTTON_TITLE }}
           </router-link>
           <img id="qr" src="@/assets/icons/qr.svg" />
         </div>
@@ -23,6 +23,7 @@
 import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import UserIcon from '../components/elements/UserIcon.vue';
+import * as messages from '@/config/messages';
 
 export default defineComponent({
   name: 'Home',
@@ -30,6 +31,11 @@ export default defineComponent({
     IonContent,
     IonPage,
     UserIcon
+  },
+  data() {
+    return {
+      message: messages,
+    }
   },
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
   <Accordion id="info-accordion" class="in_box">
-        <AccordionTab header="Telegram Monitoring Bot">
+        <AccordionTab :header="messages.TELEGRAM_INFO_TITLE">
             <TelegramMonitoringContent />
         </AccordionTab>
   </Accordion>
@@ -8,9 +8,16 @@
 
 <script>
 import TelegramMonitoringContent from '../elements/TelegramMonitoringContent.vue'
+import * as messages from '@/config/messages';
+
 export default {
     components: {
         TelegramMonitoringContent,
+    },
+    data() {
+        return {
+            messages
+        }
     }
 }
 </script>
