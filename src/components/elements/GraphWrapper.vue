@@ -9,9 +9,10 @@
                 <label :for="'toDatePicker-' + wrapperId">Bis</label>
                 <Calendar :id="'toDatePicker-' + wrapperId" v-model="toDate" :showIcon="true" dateFormat="dd.mm.yy"/>
             </div>
-            <PrimeButton id="select-timeframe-button">Anwenden</PrimeButton>
+            <PrimeButton id="select-timeframe-button" @click="redrawChart()">Anwenden</PrimeButton>
         </div>
-        <Graph :fromDate="new Date(21,6,12)" :toDate="new Date(21,6,14)" />
+        <Graph v-if="isTemperature" :isTemperature="isTemperature" :valueDatePairArray="temperatureDatePairArray" :zoomDates="zoomDates" :minMaxValues="minMaxValues"/>
+        <Graph v-else :isTemperature="isTemperature" :valueDatePairArray="humidityDatePairArray" :zoomDates="zoomDates" :minMaxValues="minMaxValues"/>
         <div class="current-value" v-if="isTemperature && data != null">
             <p>Aktuelle Temperatur</p>
             <p v-if="isOk" class="color-green">{{getCurrentTemperature}}°C</p>
@@ -31,11 +32,14 @@ export default {
   components: { Graph },
     data () {
         return {
-            fromDate: null,
-            toDate: null,
+            fromDate: undefined,
+            toDate: undefined,
+            zoomDates: { fromDate: undefined, toDate: undefined },
             mostRecentTimestamp: new Date('January 1, 1970 0:00:00'),
             currentTemperature: 0,
-            currentHumidity: 50
+            currentHumidity: 50,
+            temperatureDatePairArray: [],
+            humidityDatePairArray: []
         }
     },
     props: {
@@ -43,6 +47,34 @@ export default {
         data: Array,
         isTemperature: Boolean,
         isOk: Boolean,
+        minMaxValues: Object,
+    },
+    watch: {
+        data(val) {
+            if(this.isTemperature){
+                const valueDatePairArray = [];
+
+                val.forEach(valueDatePair => {
+                    valueDatePairArray.push({
+                        date: new Date(valueDatePair.timestamp),
+                        value: valueDatePair.temperature
+                    });
+
+                    this.temperatureDatePairArray = valueDatePairArray;
+                });
+            } else {
+                const valueDatePairArray = [];
+
+                val.forEach(valueDatePair => {
+                    valueDatePairArray.push({
+                        date: new Date(valueDatePair.timestamp),
+                        value: valueDatePair.humidity
+                    });
+
+                    this.humidityDatePairArray = valueDatePairArray;
+                });
+            }
+        },
     },
     computed: {
         getCurrentHumidity() {
@@ -64,6 +96,14 @@ export default {
                 this.currentTemperature = 0;
             }
             return this.currentTemperature;
+        }
+    },
+    methods: {
+        redrawChart() {
+            this.zoomDates = {
+                fromDate: this.fromDate,
+                toDate: this.toDate
+            };
         }
     }
 }

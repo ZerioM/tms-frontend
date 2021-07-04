@@ -26,6 +26,17 @@ const routes: Array<RouteRecordRaw> = [
       /* webpackChunkName: "information" */ '../views/Information.vue'
     ),
   },
+  {
+    path: '/singleview',
+    name: 'SingleView',
+    component: () => import(
+      /* webpackChunkName: "singleview" */ '../views/SingleView.vue'
+    ), 
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/home'
+  }
 ]
 
 const router = createRouter({

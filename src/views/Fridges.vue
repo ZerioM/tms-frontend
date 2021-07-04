@@ -1,18 +1,20 @@
 <template>
     <ion-page>
         <ion-header :translucent="true">
-            <Header title="Kühlgeräte" :searchable="true" />
+            <Header :title="messages.MONITORING_TITLE" :searchable="true" :isOnFridges="true" />
         </ion-header>
         <ion-content :fullscreen="true">
             <ion-header collapse="condense">
-                <Header title="Kühlgeräte" :searchable="true" />
+                <Header :title="messages.MONITORING_TITLE" :searchable="true" :isOnFridges="true" />
             </ion-header>
-            <Message id="error-message" severity="error" v-if="connectionToServerError" :closable="true">An error occurred while connecting to the server.</Message>
+            <Message class="message" severity="error" v-if="connectionToServerError || noSensordataError" :closable="true">{{messages.SERVER_ERROR}}</Message>
             <ion-refresher id="refresher" slot="fixed" @ionRefresh="doRefresh($event)">
                 <ion-refresher-content pulling-icon="bubbles" id="refresh-content">
                 </ion-refresher-content>
             </ion-refresher>
-            <Expandable id="expandable" v-if="!connectionToServerError" :iterable="fridgesArray" />
+            <FilterBar v-if="!connectionToServerError && !noSensordataError" />
+            <Expandable id="expandable" v-if="!connectionToServerError && !noSensordataError && store.areFridgesFound()" :iterable="sharedState.currentFridges" />
+            <Message class="message" severity="warn" v-if="!store.areFridgesFound()">{{messages.NO_DATA_FOUND_FOR_FILTERS}}</Message>
         </ion-content>
     </ion-page>
 </template>
@@ -21,8 +23,12 @@
 import { IonContent, IonRefresher, IonRefresherContent, IonPage, IonHeader } from '@ionic/vue';
 import * as http from '@/http';
 import * as errors from '../config/errors';
+import * as messages from '@/config/messages';
+import * as filterUtils from '@/config/filterUtils';
+import { store } from '@/store';
 import Expandable from '@/components/semantic/ExpandableFridges.vue';
 import Header from '@/components/semantic/Header.vue';
+import FilterBar from '@/components/elements/FilterBar.vue';
 
 
 export default {
@@ -33,13 +39,16 @@ export default {
         IonPage,
         IonHeader,
         Expandable,
+        FilterBar,
         Header
     },
     data () {
         return {
-            fridgesArray: [],
             connectionToServerError: false,
             noSensordataError: false,
+            sharedState: store.state,
+            store: store,
+            messages: messages,
         }
     },
     created: function() {
@@ -49,7 +58,12 @@ export default {
         getFridges() {
             http.getFridgesByUserId()
             .then(result => {
-                this.fridgesArray = result;
+                store.setCurrentFridges(result);
+
+                filterUtils.setupFiltering(this.sharedState.currentFridges);
+
+                filterUtils.checkIfFridgesShouldBeSorted(this.sharedState.currentFridges);
+
                 this.connectionToServerError = false;
                 this.noSensordataError = false;
                 })
@@ -70,13 +84,13 @@ export default {
             this.connectionToServerError = false;
             await this.getFridges();
             event.target.complete();
-        },
+        }
     }
 }
 </script>
 
 <style>
-    #error-message {
+    .message {
         margin: 2.5%;
     }
 </style>

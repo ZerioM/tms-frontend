@@ -2,13 +2,13 @@
 <div id="menu">
     <img id="back-m" src="@/assets/icons/big_m.svg" />
     <nav>
-        <h2>Menü</h2>
+        <h2>{{messages.MENU_TITLE}}</h2>
         <hr/>
         <ul id="navigation">
-            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">Home</router-link></li>
-            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/fridges">Monitoring</router-link></li>
-            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/information">Information</router-link></li>
-            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">Impressum</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">{{messages.HOME_BUTTON_TITLE}}</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/fridges">{{messages.MONITORING_BUTTON_TITLE}}</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/information">{{messages.INFORMATION_BUTTON_TITLE}}</router-link></li>
+            <li><router-link @click="toggleMenu()" class="nav-list-el" to="/">{{messages.IMPRINT_BUTTON_TITLE}}</router-link></li>
         </ul>
     </nav>
 </div> 
@@ -16,11 +16,13 @@
 
 <script>
 import { store } from '../../store';
+import * as messages from '@/config/messages';
 
 export default {
     data () {
         return {
             sharedState: store.state,
+            messages: messages,
         }
     },
     methods: {

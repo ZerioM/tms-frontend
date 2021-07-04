@@ -19,21 +19,55 @@ export default {
         }
     },
     props: {
-        fromDate: {
-            type: Date,
+        zoomDates: {
+            type: Object,
             default() {
-                return new Date(2018,3,23)
+                return {
+                    fromDate: undefined,
+                    toDate: undefined
+                }
             }
         },
-        toDate: {
-            type: Date,
-            default() {
-                return new Date(2018,3,26)
-            }
+        valueDatePairArray: {
+            type: Array
         },
+        isTemperature: {
+            type: Boolean
+        },
+        minMaxValues: {
+            type: Object
+        }
+    },
+    watch: {
+        zoomDates(val) {
+            if (this.chart) {
+                this.chart.dispose();
+            }
+            this.createChart(val, this.getValueDatePairArray, this.isTemperature, this.minMaxValues);
+        },
+        valueDatePairArray(val) {
+            if (this.chart) {
+                this.chart.dispose();
+            }
+            this.createChart(this.zoomDates, val, this.isTemperature, this.minMaxValues);
+        }
+    },
+    computed: {
+        getValueDatePairArray() {
+            if(this.valueDatePairArray.length < 1){
+                return [
+                    {
+                        value: 2.4,
+                        date: new Date(2021,6,12)
+                    } 
+                ];
+            } else {
+                return this.valueDatePairArray;
+            }
+        }
     },
     mounted: function() {
-        this.createChart(this.fromDate, this.toDate)
+        this.createChart(this.zoomDates, this.getValueDatePairArray, this.isTemperature, this.minMaxValues)
     },
 
     beforeUnmount: function() {
@@ -42,23 +76,26 @@ export default {
         }
     },
     methods: {
-        createChart(fromDate, toDate) {
+        createChart({ fromDate, toDate }, valueDatePairArray, isTemperature, { min, max }) {
             const chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
 
             chart.paddingRight = 20;
 
             const data = [];
-            let visits = 10;
-            for (let i = 1; i < 366; i++) {
-            visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-            data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
-            }
+
+            valueDatePairArray.forEach(valueDatePair => {
+                data.push({
+                    date: valueDatePair.date,
+                    value: valueDatePair.value
+                });
+            });
 
             chart.data = data;
 
             const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             dateAxis.renderer.grid.template.location = 0;
-
+            dateAxis.tooltipDateFormat = "dd.MM. HH:mm:ss";
+            
             const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.tooltip.disabled = true;
             valueAxis.renderer.minWidth = 35;
@@ -67,21 +104,85 @@ export default {
             series.dataFields.dateX = "date";
             series.dataFields.valueY = "value";
 
-            series.tooltipText = "{valueY.value}";
-            chart.cursor = new am4charts.XYCursor();
+            // TODO: Draw a range from min to max
+            // const range = valueAxis.createSeriesRange(series);
+            // range.value = min;
+            // range.endValue = max;
+            // range.contents.stroke = am4core.color("#396478");
+            // range.contents.fill = range.contents.stroke;
 
-            // const scrollbarX = new am4charts.XYChartScrollbar();
-            // scrollbarX.series.push(series);
-            // chart.scrollbarX = scrollbarX;
+            const bullet = series.bullets.push(new am4charts.CircleBullet())
+            bullet.circle.radius = 3
+            bullet.circle.stroke = am4core.color("black");
+
+            bullet.circle.adapter.add("fill", function(fill, target) {
+                if(!target.dataItem) {
+                    return fill;
+                }
+
+                const value = target.dataItem.values.valueY.value;
+
+                let color = "blue";
+
+                if(max === min)
+                    color = "lime"
+                else if(value > max)
+                    color = "red";
+                else if(value < min)
+                    color = "red";
+                else if(value < max && value > min)
+                    color = "lime";
+
+                return color;
+            });
+
+            series.tooltip.getFillFromObject = false;
+            series.tooltip.background.fill = "red";
+
+            series.tooltip.background.adapter.add("fill", function(fill, target) {
+                if(!target.dataItem) {
+                    return fill;
+                }
+
+                const value = target.dataItem.values.valueY.close;
+
+
+                
+                let color = "blue";
+
+                if(value != undefined && min != undefined && max != undefined){
+
+                    if(value > max)
+                        color = "red";
+                    else if (value < min)
+                        color = "red";
+                    else if (value < max && value > min)
+                        color = "lightgreen";
+                }
+
+                return color;
+            });
+
+            if(isTemperature)
+                series.tooltipText = "{valueY.value} °C";
+            else
+                series.tooltipText = "{valueY.value} %";
+            chart.cursor = new am4charts.XYCursor();
 
             this.chart = chart;
 
-            this.chart.events.on("ready", function () {
-                dateAxis.zoomToDates(
-                    fromDate,
-                    toDate
-                );
-            });
+            if(this.checkIfTypesOfDatesAreCorrect(fromDate, toDate)){
+                this.chart.events.on("ready", function () {
+                    dateAxis.zoomToDates(
+                        fromDate,
+                        toDate
+                    );
+                });
+            }
+            
+        },
+        checkIfTypesOfDatesAreCorrect(fromDate, toDate){
+            return fromDate != undefined && toDate != undefined && fromDate != null && toDate != null && fromDate != '' && toDate != '';
         }
     }
 
