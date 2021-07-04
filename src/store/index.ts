@@ -11,7 +11,9 @@ export const store = {
       orderAlphabetically: options.NONE,
       selectedGPSState: options.NONE,
       selectedBatteryState: options.NONE,
+      selectedCoolingState: options.NONE,
       allFridges: [],
+      currentFridges: new Array(0),
     }),
   
     changeMenuVisibleAction(newValue: boolean) {
@@ -20,6 +22,14 @@ export const store = {
       }
   
       this.state.isMenuVisible = newValue
+    },
+
+    areFridgesFound() {
+      if (this.state.currentFridges.length == 0){
+        return false;
+      } else {
+        return true;
+      }
     },
 
     setCurrentFridgeName(newValue: string) {
@@ -60,7 +70,17 @@ export const store = {
       }
 
       this.state.allFridges = newValue
-    } 
+    },
+
+    setCurrentFridges(newValue: any[]) {
+      if (this.debug) {
+        console.log('setCurrentFridges triggered with', newValue)
+      }
+
+      this.state.currentFridges = newValue
+    },
+
+    }
 
 
   }

@@ -1,14 +1,18 @@
 <template>
   <div id="filter-wrapper">
-    <div>
-        <h3>Akku</h3>
-        <Dropdown v-model="sharedState.selectedBatteryState" :options="batteryFilterOptions" optionLabel="name" optionValue="value" placeholder="Battery" />
+    <div class="filter">
+        <h3>{{ messages.COOLING_FILTER_TITLE }}</h3>
+        <Dropdown class="filter-drpdwn" @change="updateSortingAndFiltering()" v-model="sharedState.selectedCoolingState" :options="coolingFilterOptions" optionLabel="name" optionValue="value" placeholder="Alle"/>
     </div>
-    <div>
-        <h3>GPS</h3>
-        <Dropdown v-model="sharedState.selectedGPSState" :options="gpsFilterOptions" optionLabel="name" optionValue="value" placeholder="GPS State" />
+    <div class="filter">
+        <h3>{{ messages.BATTERY_FILTER_TITLE }}</h3>
+        <Dropdown class="filter-drpdwn" @change="updateSortingAndFiltering()" v-model="sharedState.selectedBatteryState" :options="batteryFilterOptions" optionLabel="name" optionValue="value" placeholder="Alle" />
     </div>
-    <SelectButton id="select-alpha" v-model="sharedState.orderAlphabetically" :options="alphabetOrderOptions" dataKey="value" optionValue="value">
+    <div class="filter">
+        <h3>{{ messages.GPS_FILTER_TITLE }}</h3>
+        <Dropdown class="filter-drpdwn" @change="updateSortingAndFiltering()" v-model="sharedState.selectedGPSState" :options="gpsFilterOptions" optionLabel="name" optionValue="value" placeholder="Alle" />
+    </div>
+    <SelectButton id="select-alpha" @click="updateSortingAndFiltering()" v-model="sharedState.orderAlphabetically" :options="alphabetOrderOptions" dataKey="value" optionValue="value">
         <template #option="slotProps">
             <i :class="[slotProps.option.icon]"></i>
         </template>
@@ -19,11 +23,14 @@
 <script>
 import * as options from '@/config/options';
 import { store } from '@/store';
+import * as filterUtils from '@/config/filterUtils';
+import * as messages from '@/config/messages';
 
 export default {
     data () {
         return {
             sharedState: store.state,
+            messages: messages,
             orderAlphabettically: null,
             alphabetOrderOptions: [
                 {icon: 'pi pi-sort-alpha-down', value: options.ALPHABETICALLY},
@@ -39,9 +46,22 @@ export default {
                 {name: 'Mittel', value: options.BATTERY_MEDIUM},
                 {name: 'Gering', value: options.BATTERY_LOW},
                 {name: 'Alle', value: options.NONE }
+            ],
+            coolingFilterOptions: [
+                {name: '🟢', value: options.COOLING_HUM_OK},
+                {name: '🟡', value: options.COOLING_OR_HUM_NOT_OK},
+                {name: '🔴', value: options.COOLING_AND_HUM_NOT_OK},
+                {name: 'Alle', value: options.NONE}
             ]
         }
     },
+    methods: {
+        updateSortingAndFiltering() {
+            console.log("Filter By: ", this.sharedState.selectedCoolingState + ' | ' + this.sharedState.selectedGPSState + ' | ' + this.sharedState.selectedBatteryState)
+            store.setSearchText('');
+            filterUtils.updateSortingAndFiltering();
+        }, 
+    }
 }
 </script>
 
@@ -57,6 +77,8 @@ export default {
 
     #select-alpha {
         margin-top: 17px;
+        min-width: 100%;
+        margin-left: 10px;
     }
 
     h3 {
