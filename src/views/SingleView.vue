@@ -1,21 +1,23 @@
 <template>
   <ion-page>
         <ion-header :translucent="true">
-            <Header title="Einzelansicht" :searchable="false" :backNavLocation="'/fridges'" />
+            <Header :title="messages.SINGLEVIEW_TITLE" :searchable="false" :backNavLocation="'/fridges'" />
         </ion-header>
         <ion-content :fullscreen="true">
             <ion-header collapse="condense">
-                <Header title="Einzelansicht" :searchable="false" :backNavLocation="'/fridges'"  />
+                <Header :title="messages.SINGLEVIEW_TITLE" :searchable="false" :backNavLocation="'/fridges'"  />
             </ion-header>
-            <Message id="error-message" severity="error" v-if="connectionToServerError || noSensordataError" :closable="true">An error occurred while connecting to the server.</Message>
+            <Message id="error-message" severity="error" v-if="connectionToServerError || noSensordataError" :closable="true">
+                {{messages.SERVER_ERROR}}
+            </Message>
             <ion-refresher id="refresher" slot="fixed" @ionRefresh="doRefresh($event.target)">
                 <ion-refresher-content pulling-icon="bubbles" id="refresh-content">
                 </ion-refresher-content>
             </ion-refresher>
             <DataTable v-if="!connectionToServerError && !noSensordataError" id="data-table" class="p-datatable-sm" showGridlines responsiveLayout="scroll" :value="sensorData">
-                <Column field="date" header="Datum"></Column>
-                <Column field="temperature" header="Ø Temperatur"></Column>
-                <Column field="humidity" header="Ø Luftfeuchtigkeit"></Column>
+                <Column field="date" :header="messages.SINGLEVIEW_COLUMN_HEADER_DATE"></Column>
+                <Column field="temperature" :header="messages.SINGLEVIEW_COLUMN_HEADER_TEMP"></Column>
+                <Column field="humidity" :header="messages.SINGLEVIEW_COLUMN_HEADER_HUM"></Column>
             </DataTable>
         </ion-content>
     </ion-page>
@@ -27,6 +29,7 @@ import Header from '@/components/semantic/Header.vue';
 import { store } from '@/store';
 import * as http from '@/http';
 import * as errors from '../config/errors';
+import * as messages from '@/config/messages';
 
 export default {
     components: {
@@ -40,6 +43,7 @@ export default {
     data () {
         return {
             sharedState: store.state,
+            messages: messages,
             sensorData: [],
             connectionToServerError: false,
             noSensordataError: false

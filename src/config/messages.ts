@@ -4,6 +4,7 @@ export const NO_DATA_FOUND_FOR_FILTERS = 'No Sensor Data found for specified fil
 export const MONITORING_TITLE = 'Kühlgeräte';
 export const INFORMATION_TITLE = 'Information';
 export const MENU_TITLE = 'Menü';
+export const SINGLEVIEW_TITLE = 'Einzelansicht';
 
 export const MONITORING_BUTTON_TITLE = 'Monitoring';
 export const INFORMATION_BUTTON_TITLE = 'Information';
@@ -13,5 +14,9 @@ export const IMPRINT_BUTTON_TITLE = 'Impressum';
 export const COOLING_FILTER_TITLE = 'Status';
 export const BATTERY_FILTER_TITLE = 'Akku';
 export const GPS_FILTER_TITLE = 'GPS';
+
+export const SINGLEVIEW_COLUMN_HEADER_DATE = 'Datum';
+export const SINGLEVIEW_COLUMN_HEADER_TEMP = 'Ø Temperatur';
+export const SINGLEVIEW_COLUMN_HEADER_HUM = 'Ø Luftfeuchtigkeit';
 
 export const TELEGRAM_INFO_TITLE = 'Telegram Monitoring Bot';
