@@ -1,16 +1,24 @@
 <template>
-  <Input ref="input" id="input" />
+  <Input ref="input" id="input" :isOnFridges="isOnFridges" />
   <img id="search-icon" @click="clickOnSearchIcon()" src="@/assets/icons/search.svg" />
 </template>
 
 <script>
+import * as filterUtils from '@/config/filterUtils';
 import Input from './Input.vue'
 export default {
   components: { Input },
+  props: {
+    isOnFridges: Boolean,
+  },
   methods: {
       clickOnSearchIcon() {
         const input = this.$refs.input;
         input.$el.setFocus();
+        if(this.isOnFridges){
+          filterUtils.updateFilterSearch();
+        }
+        
       }
   }
 }

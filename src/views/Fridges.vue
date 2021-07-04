@@ -1,11 +1,11 @@
 <template>
     <ion-page>
         <ion-header :translucent="true">
-            <Header title="Kühlgeräte" :searchable="true" />
+            <Header :title="messages.MONITORING_TITLE" :searchable="true" :isOnFridges="true" />
         </ion-header>
         <ion-content :fullscreen="true">
             <ion-header collapse="condense">
-                <Header title="Kühlgeräte" :searchable="true" />
+                <Header :title="messages.MONITORING_TITLE" :searchable="true" :isOnFridges="true" />
             </ion-header>
             <Message class="message" severity="error" v-if="connectionToServerError || noSensordataError" :closable="true">{{messages.SERVER_ERROR}}</Message>
             <ion-refresher id="refresher" slot="fixed" @ionRefresh="doRefresh($event)">

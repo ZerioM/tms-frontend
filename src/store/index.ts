@@ -12,6 +12,7 @@ export const store = {
       selectedGPSState: options.NONE,
       selectedBatteryState: options.NONE,
       selectedCoolingState: options.NONE,
+      searchText: '',
       allFridges: [],
       currentFridges: new Array(0),
     }),
@@ -80,6 +81,12 @@ export const store = {
       this.state.currentFridges = newValue
     },
 
+    setSearchText(newValue: string) {
+      if (this.debug) {
+        console.log('setSearchText triggered with', newValue)
+      }
+
+      this.state.searchText = newValue
     }
 
 

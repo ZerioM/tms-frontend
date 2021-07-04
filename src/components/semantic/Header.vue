@@ -11,7 +11,7 @@
         <MenuIcon id="menu-icon" @click="toggleMenu()"/>
       </div>
       
-      <SearchInput v-if="searchable && !sharedState.isMenuVisible" />
+      <SearchInput v-if="searchable && !sharedState.isMenuVisible" :isOnFridges="isOnFridges" />
       <h2 v-if="backNavLocation">{{sharedState.currentFridgeName}}</h2>
       <h3 v-if="backNavLocation">{{sharedState.currentSensorMac}}</h3>
   </div>
@@ -30,6 +30,7 @@ export default {
   props: {
       title: String,
       searchable: Boolean,
+      isOnFridges: Boolean,
       backNavLocation: {
           type: String,
           default () {
